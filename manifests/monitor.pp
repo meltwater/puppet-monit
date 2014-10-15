@@ -8,6 +8,7 @@
 # [*matching*]     - String to match a process
 # [*ensure*]       - If the file should be enforced or not (default: present)
 # [*ip_port*]      - Port to check if needed (zero to disable)
+# [*ip_port_args*] - Additional arguments needed for port check
 # [*socket*]       - Path to socket file if needed (undef to disable)
 # [*checks*]       - Array of monit check statements
 # [*start_script*] - Scipt used to start the process
@@ -33,6 +34,7 @@ define monit::monitor (
   $matching      = undef,
   $ensure        = present,
   $ip_port       = 0,
+  $ip_port_args  = [ ],
   $socket        = undef,
   $checks        = [ ],
   $start_script  = "/etc/init.d/${name} start",
