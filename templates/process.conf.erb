@@ -1,7 +1,7 @@
 <% if @pidfile -%>
 check process <%= @name %> with pidfile <%= @pidfile %>
 <% elsif @matching -%>
-check process <%= @name %> matching <%= @matching %>
+check process <%= @name %> matching '<%= @matching %>'
 <% end -%>
   start program = "<%= @start_script %>"<%= " as uid \"#{uid}\" and gid \"#{gid}\"" if @uid != '' and @gid != '' %>
 <% if @start_timeout -%>
@@ -12,7 +12,7 @@ check process <%= @name %> matching <%= @matching %>
     with timeout <%= @stop_timeout %> seconds
 <% end -%>
 <% if @ip_port.to_i > 0 -%>
-  if failed port <%= @ip_port %> then restart
+  if failed port <%= @ip_port %><% @ip_port_args.each do |arg| -%> <%= arg %><% end -%> then restart
 <% elsif @socket -%>
   if failed unixsocket <%= @socket %> then restart
 <% end -%>
