@@ -4,12 +4,14 @@
 #
 # === Parameters
 #
-# [*ensure*]    - If you want the service running or not
-# [*admin*]     - Admin email address
-# [*interval*]  - How frequently the check runs
-# [*delay*]     - How long to wait before actually performing any action
-# [*logfile*]   - What file for monit use for logging
-# [*mailserver] - Which mailserver to use
+# [*ensure*]        - If you want the service running or not
+# [*admin*]         - Admin email address
+# [*interval*]      - How frequently the check runs
+# [*delay*]         - How long to wait before actually performing any action
+# [*logfile*]       - What file for monit use for logging
+# [*mailserver*]    - Which mailserver to use
+# [*purge_confdir*] - Whether to purge configs not managed by puppet
+#
 # === Examples
 #
 #  class { 'monit':
@@ -27,14 +29,15 @@
 # Copyright 2011 Eivind Uggedal <eivind@uggedal.com>
 #
 class monit (
-  $ensure     = present,
-  $admin      = undef,
-  $interval   = 60,
-  $delay      = undef,
-  $idfile     = 'UNSET',
-  $logfile    = 'UNSET',
-  $mailserver = 'localhost',
-  $mailformat = undef,
+  $ensure        = present,
+  $admin         = undef,
+  $interval      = 60,
+  $delay         = undef,
+  $idfile        = 'UNSET',
+  $logfile       = 'UNSET',
+  $mailserver    = 'localhost',
+  $mailformat    = undef,
+  $purge_confdir = false,
 ) {
   include monit::params
 
@@ -86,12 +89,21 @@ class monit (
     before => Service[$monit::params::monit_service]
   }
 
+  if ($purge_confdir == true) {
+    $recurse_confdir = true
+  } else {
+    $recurse_confdir = false
+  }
+
   file { $monit::params::conf_dir:
     ensure  => directory,
+    purge   => $purge_confdir,
+    recurse => $recurse_confdir,
     owner   => 'root',
     group   => 'root',
     mode    => '0755',
     require => Package[$monit::params::monit_package],
+    notify  => Service[$monit::params::monit_service],
   }
 
   # Not all platforms need this
