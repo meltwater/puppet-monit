@@ -18,18 +18,27 @@ class monit::params {
   # OS Specific variables
   case $::osfamily {
     'RedHat': {
-      $conf_file          = '/etc/monit.conf'
       $conf_dir           = '/etc/monit.d'
       $default_conf       = undef
       $monit_package      = 'monit'
       $monit_service      = 'monit'
       $id_dir             = '/var/lib/monit'
       $idfile             = '/var/lib/monit/id'
-      $logfile            = '/var/log/monit'
       $logrotate_script   = '/etc/logrotate.d/monit'
-      $logrotate_source   = 'logrotate.redhat.erb'
       $service_has_status = true
       $default_conf_tpl   = undef
+      case $::operatingsystemmajrelease {
+        '7' : {
+          $conf_file          = '/etc/monitrc'
+          $logfile            = '/var/log/monit.log'
+          $logrotate_source   = 'logrotate.redhat7.erb'
+        }
+        default : {
+          $conf_file          = '/etc/monit.conf'
+          $logfile            = '/var/log/monit'
+          $logrotate_source   = 'logrotate.redhat.erb'
+        }
+      }
     }
     'Debian': {
       $conf_file        = '/etc/monit/monitrc'
