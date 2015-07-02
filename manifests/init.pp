@@ -81,7 +81,7 @@ class monit (
     notify  => [Service[$monit::params::monit_service],File[$monit::params::bash_completion]],
   }
 
-  file { $monit::params::bash_completion:
+  file { 'bash_completion':
     path    => '/etc/bash_completion.d/monit',
     ensure  => present,
     source  => 'puppet:///modules/monit/bash_completion',
