@@ -82,9 +82,9 @@ class monit (
   }
 
   file { $monit::params::bash_completion:
+    path    => '/etc/bash_completion.d/monit',
     ensure  => present,
     source  => 'puppet:///modules/monit/bash_completion',
-    target  => '/etc/bash_completion.d/monit',
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
