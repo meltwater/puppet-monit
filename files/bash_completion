@@ -1,0 +1,23 @@
+_monit()
+{
+    local cur prev opts base
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+
+    opts="start stop restart monitor unmonitor reload status summary quit validate procmatch"
+
+    case "${prev}" in
+	start|stop|restart|monitor|unmonitor)
+		local processes=$(monit summary |grep Process |awk '{print $2}' |tr -d "'" |xargs echo)
+		COMPREPLY=( $(compgen -W "${processes}" -- ${cur}) )
+		return 0
+		;;
+        *)
+		COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+		return 0
+		;;
+	esac
+}
+complete -F _monit monit
+

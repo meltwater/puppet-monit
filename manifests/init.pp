@@ -81,6 +81,16 @@ class monit (
     notify  => Service[$monit::params::monit_service],
   }
 
+  file { $monit::params::bash_completion:
+    ensure  => present,
+    source  => 'puppet:///modules/monit/bash_completion',
+    target  => '/etc/bash_completion.d/monit',
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
+    require => Package[$monit::params::monit_package],
+  }
+
   file { $monit::params::id_dir:
     ensure => directory,
     owner  => 'root',
