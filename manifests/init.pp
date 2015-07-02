@@ -78,7 +78,7 @@ class monit (
     content => template('monit/monitrc.erb'),
     mode    => '0600',
     require => Package[$monit::params::monit_package],
-    notify  => [Service[$monit::params::monit_service],File[$monit::params::bash_completion]],
+    notify  => Service[$monit::params::monit_service],
   }
 
   file { 'bash_completion':
