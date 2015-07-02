@@ -82,8 +82,8 @@ class monit (
   }
 
   file { 'bash_completion':
-    path    => '/etc/bash_completion.d/monit',
     ensure  => present,
+    path    => '/etc/bash_completion.d/monit',
     source  => 'puppet:///modules/monit/bash_completion',
     owner   => 'root',
     group   => 'root',
