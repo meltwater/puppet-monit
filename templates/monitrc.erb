@@ -26,9 +26,9 @@ set daemon  <%= @interval %> # check services at N-second intervals
 ## omitted, Monit will use 'user' facility by default. If you want to log to 
 ## a standalone log file instead, specify the full path to the log file
 #
-# set logfile syslog facility log_daemon
+set logfile syslog
 <% if @logfile_real and ! @logfile_real.empty? -%>
-set logfile <%= @logfile_real %>
+#set logfile <%= @logfile_real %>
 <% end -%>
 #
 #
