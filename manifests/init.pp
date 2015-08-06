@@ -98,7 +98,7 @@ class monit (
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    require => Package[$rsyslog_package],
+    require => Package['rsyslog'],
     notify  => Service['rsyslog'],
   }
 
