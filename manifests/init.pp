@@ -91,6 +91,17 @@ class monit (
     require => Package[$monit::params::monit_package],
   }
 
+  file { 'monit_syslog_conf':
+    ensure  => present,
+    path    => '/etc/rsyslog.d/3-mw-monit.conf',
+    source  => 'puppet:///modules/monit/3-mw-monit.conf',
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
+    require => Package[$rsyslog_package],
+    notify  => Service['rsyslog'],
+  }
+
   file { $monit::params::id_dir:
     ensure => directory,
     owner  => 'root',
