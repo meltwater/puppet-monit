@@ -1,0 +1,10 @@
+# This file is managed by puppet
+<% if @logstash_host -%>
+# Filter for messages from monit, and send to logstash
+if $programname == 'monit' then @<%= @logstash_host %>
+& ~
+<% else -%>
+# logstash_host not set
+#if $programname == 'monit' then @logstash.meltwater.net:5014
+#& ~
+<% end -%>

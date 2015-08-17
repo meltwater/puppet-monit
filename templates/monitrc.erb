@@ -17,20 +17,15 @@
 ## Start Monit in the background (run as a daemon):
 #
 set daemon  <%= @interval %> # check services at N-second intervals
-<% if @use_delay.to_i != 0 %>
+<% if @use_delay.to_i != 0 -%>
    with start delay <%= @use_delay  %> # delay the first check N*2
-<% end %>
-#
-#
-## Set syslog logging with the 'daemon' facility. If the FACILITY option is
-## omitted, Monit will use 'user' facility by default. If you want to log to 
-## a standalone log file instead, specify the full path to the log file
-#
-set logfile syslog
-<% if @logfile_real and ! @logfile_real.empty? -%>
-#set logfile <%= @logfile_real %>
 <% end -%>
 #
+<% if ! @logstash_host and @logfile_real and ! @logfile_real.empty? -%>
+set logfile <%= @logfile_real %>
+<% else -%>
+set logfile syslog
+<% end -%>
 #
 <% if @idfile_real and ! @idfile_real.empty? -%>
 ### Set the location of the Monit id file which stores the unique id for the

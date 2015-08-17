@@ -38,6 +38,7 @@ class monit (
   $mailserver    = 'localhost',
   $mailformat    = undef,
   $purge_confdir = false,
+  $logstash_host = undef,
 ) {
   include monit::params
 
@@ -91,10 +92,11 @@ class monit (
     require => Package[$monit::params::monit_package],
   }
 
+  include syslog
   file { 'monit_syslog_conf':
     ensure  => present,
     path    => '/etc/rsyslog.d/3-mw-monit.conf',
-    source  => 'puppet:///modules/monit/3-mw-monit.conf',
+    content => template('monit/3-mw-monit.conf.erb'),
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
