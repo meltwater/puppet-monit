@@ -4,7 +4,6 @@
 if $programname == 'monit' then @<%= @logstash_host %>
 & ~
 <% else -%>
-# logstash_host not set
-#if $programname == 'monit' then @logstash.meltwater.net:5014
-#& ~
+# Please configure monit::logstash_host in puppet if you would like
+# monit logs to be forwarded to logstash.
 <% end -%>
