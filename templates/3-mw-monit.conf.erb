@@ -1,9 +1,17 @@
 # This file is managed by puppet
+
+<% if @logfile_real and ! @logfile_real.empty? -%>
+# This can be helpful, even if we also send to logstash
+if $programname == 'monit' then <%= logfile_real %>
+<% end -%>
 <% if @logstash_host -%>
+
 # Filter for messages from monit, and send to logstash
 if $programname == 'monit' then @<%= @logstash_host %>
 & ~
 <% else -%>
+& ~
+
 # Please configure monit::logstash_host in puppet if you would like
 # monit logs to be forwarded to logstash.
 <% end -%>
