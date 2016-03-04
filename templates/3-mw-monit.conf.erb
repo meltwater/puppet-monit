@@ -2,7 +2,7 @@
 
 <% if @logfile_real and ! @logfile_real.empty? -%>
 # This can be helpful, even if we also send to logstash
-if $programname == 'monit' then <%= logfile_real %>
+if $programname == 'monit' then <%= @logfile_real %>
 <% end -%>
 <% if @logstash_host -%>
 
